@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("journal");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const d = post.data;
+const { Content } = await render(post);
+const date = d.publishedAt.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+---
+<Base title={d.title} description={d.description}>
+  <article>
+    <header class="wrap head">
+      <a class="label back" href="/journal/">← Trail journal</a>
+      <p class="label reveal reveal-1">{date} · {d.readingTime}</p>
+      <h1 class="reveal reveal-2">{d.title}</h1>
+      <p class="lede reveal reveal-3">{d.description}</p>
+    </header>
+    <div class="wrap cover reveal reveal-4"><Image src={d.cover} alt={d.coverAlt} widths={[800, 1400, 1600]} sizes="100vw" loading="eager" /></div>
+    <div class="wrap body"><div class="prose"><Content /></div></div>
+  </article>
+</Base>
+<style>
+  .head { padding-top: clamp(48px, 6vw, 88px); max-width: 920px; }
+  .back { display: inline-block; text-decoration: none; margin-bottom: 28px; }
+  .back:hover { color: var(--blaze-deep); }
+  h1 { font-size: clamp(44px, 6vw, 84px); margin: 14px 0 18px; }
+  .cover { margin-top: clamp(32px, 4vw, 56px); }
+  .cover :global(img) { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; border-radius: var(--radius); }
+  .body { display: flex; justify-content: center; padding-top: clamp(40px, 5vw, 64px); }
+</style>

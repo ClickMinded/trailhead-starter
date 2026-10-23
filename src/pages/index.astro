@@ -1,0 +1,128 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import ProductCard from "../components/ProductCard.astro";
+import Topo from "../components/Topo.astro";
+import hero from "../assets/images/hero-ridge.jpg";
+import shop from "../assets/images/shop-interior.jpg";
+
+const products = (await getCollection("products")).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection("journal")).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt);
+const promises = [
+  ["01", "Picked on the trail", "Everything on our shelves has been carried up a real mountain by someone on our team."],
+  ["02", "Advice before you buy", "Tell us where you're going. We'll tell you what you need, and what you can skip."],
+  ["03", "Try it outside", "If it doesn't work on your first hike, bring it back within 60 days."],
+];
+---
+<Base title="Home" description="Packs, shoes and camp kit for your first real trip, picked by people who hike every weekend.">
+  <section class="hero">
+    <Image src={hero} alt="A hiker with a green daypack on a granite ridge at sunrise, looking over misty mountains" widths={[800, 1400, 2400]} sizes="100vw" loading="eager" class="hero-img" />
+    <div class="hero-shade"></div>
+    <div class="wrap hero-copy">
+      <p class="label reveal reveal-1">Trailhead 01 · Est. 2014</p>
+      <h1 class="reveal reveal-2">Gear for your<br />first <em>real</em> trip.</h1>
+      <p class="lede reveal reveal-3">Packs, shoes and camp kit, picked by people who hike every weekend, for people who are just getting started.</p>
+      <div class="cta reveal reveal-4">
+        <a class="btn btn--blaze" href="/shop/">Shop the gear <span class="arrow">→</span></a>
+        <a class="btn btn--ghost" href="/journal/">Read the trail guides</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="promises">
+    <Topo class="promises-topo" tone="#d6c9ad" />
+    <div class="wrap promise-row">
+      {promises.map(([n, t, d]) => (
+        <div class="promise">
+          <span class="num label label--blaze">{n}</span>
+          <h3>{t}</h3>
+          <p>{d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap gear">
+    <div class="section-head">
+      <div><span class="label"><span class="blaze"></span>The kit</span><h2>What's in our packs<br />this season.</h2></div>
+      <a class="link-arrow" href="/shop/">All gear →</a>
+    </div>
+    <div class="gear-grid">
+      {products.map((p, i) => <div class={`g g${i + 1}`}><ProductCard product={p} feature={i === 0} /></div>)}
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="wrap story-grid">
+      <Image src={shop} alt="Inside the Trailhead Gear shop: wooden shelves of packs, boots and enamel mugs, with a trail map on the wall" widths={[700, 1200, 1600]} sizes="(max-width: 900px) 100vw, 55vw" class="story-img" />
+      <div class="story-copy">
+        <span class="label">Since 2014</span>
+        <p class="quote">"Most people don't need more gear. They need the right five things, and someone to tell them which trail to start on."</p>
+        <a class="btn btn--blaze" href="/about/">Our story <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap journal">
+    <div class="section-head">
+      <div><span class="label"><span class="blaze"></span>Trail journal</span><h2>Read this before<br />your first hike.</h2></div>
+      <a class="link-arrow" href="/journal/">All guides →</a>
+    </div>
+    <div class="posts">
+      {posts.map((p) => (
+        <a class="post" href={`/journal/${p.id}/`}>
+          <div class="post-media"><Image src={p.data.cover} alt={p.data.coverAlt} widths={[480, 800]} sizes="(max-width: 900px) 100vw, 33vw" /></div>
+          <span class="label">{p.data.readingTime}</span>
+          <h3>{p.data.title}</h3>
+          <p>{p.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; min-height: min(88vh, 860px); display: flex; align-items: center; overflow: hidden; }
+  .hero :global(.hero-img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
+  .hero-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(243, 237, 225, 0.92) 0%, rgba(243, 237, 225, 0.65) 38%, rgba(243, 237, 225, 0) 62%); }
+  .hero-copy { position: relative; padding-block: 120px; }
+  .hero h1 { font-size: clamp(54px, 8.4vw, 124px); margin: 18px 0 24px; }
+  .hero h1 em { font-style: italic; color: var(--blaze-deep); }
+  .cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+
+  .promises { position: relative; overflow: hidden; background: var(--paper-2); padding-block: clamp(56px, 7vw, 96px); }
+  .promises :global(.promises-topo) { opacity: 0.9; }
+  .promise-row { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 4vw, 56px); }
+  .promise { border-top: 1.5px solid var(--ink); padding-top: 22px; }
+  .promise h3 { font-size: 30px; margin: 12px 0 10px; }
+  .promise p { margin: 0; color: var(--ink-2); }
+
+  .gear { padding-top: clamp(72px, 9vw, 120px); }
+  .gear-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(18px, 2.4vw, 32px); }
+  .g1 { grid-column: span 2; grid-row: span 2; }
+
+  .story { background: var(--night); color: #efe9dc; margin-top: clamp(80px, 10vw, 140px); }
+  .story-grid { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: clamp(32px, 5vw, 72px); padding-block: clamp(56px, 7vw, 96px); }
+  .story :global(.story-img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
+  .story .label { color: #9aa393; }
+  .quote { font-family: var(--font-display); font-size: clamp(30px, 3.2vw, 44px); line-height: 1.15; margin: 18px 0 32px; }
+
+  .journal { padding-top: clamp(80px, 10vw, 140px); }
+  .posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 40px); }
+  .post { text-decoration: none; }
+  .post-media { overflow: hidden; border-radius: var(--radius); aspect-ratio: 3 / 2; margin-bottom: 16px; }
+  .post-media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .post:hover .post-media :global(img) { transform: scale(1.045); }
+  .post h3 { font-size: 28px; margin: 8px 0; }
+  .post p { margin: 0; color: var(--ink-2); font-size: 16px; }
+
+  @media (max-width: 900px) {
+    .hero-shade { background: linear-gradient(180deg, rgba(243, 237, 225, 0.94) 0%, rgba(243, 237, 225, 0.75) 55%, rgba(243, 237, 225, 0.2) 100%); }
+    .promise-row, .posts { grid-template-columns: 1fr; }
+    .gear-grid { grid-template-columns: 1fr 1fr; }
+    .g1 { grid-column: span 2; grid-row: auto; }
+    .story-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) { .gear-grid { grid-template-columns: 1fr; } .g1 { grid-column: auto; } .section-head { flex-direction: column; align-items: start; } }
+</style>

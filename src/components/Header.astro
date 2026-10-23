@@ -1,0 +1,29 @@
+---
+const nav = [
+  { href: "/shop/", label: "Shop" },
+  { href: "/journal/", label: "Journal" },
+  { href: "/about/", label: "About" },
+];
+const path = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="logo" href="/" aria-label="Trailhead Gear Co. home">
+      <span class="blaze"></span><span class="word">Trailhead</span><span class="co">Gear Co.</span>
+    </a>
+    <nav aria-label="Main">
+      {nav.map((n) => <a href={n.href} class:list={{ on: path.startsWith(n.href) }}>{n.label}</a>)}
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: flex; align-items: baseline; text-decoration: none; }
+  .logo .word { font-family: var(--font-display); font-size: 27px; letter-spacing: -0.01em; }
+  .logo .co { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-left: 9px; }
+  nav { display: flex; gap: clamp(18px, 3vw, 36px); }
+  nav a { font-weight: 500; font-size: 16px; text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
+  nav a:hover, nav a.on { border-color: var(--blaze); }
+  @media (max-width: 560px) { .logo .co { display: none; } .logo .word { font-size: 23px; } }
+</style>

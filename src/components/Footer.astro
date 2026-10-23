@@ -1,0 +1,33 @@
+---
+import Elevation from "./Elevation.astro";
+const year = new Date().getFullYear();
+---
+<Elevation label="End of trail · 4.2 km" />
+<footer class="site-footer">
+  <div class="wrap grid">
+    <div class="brand">
+      <p class="mark"><span class="blaze"></span>Trailhead Gear Co.</p>
+      <p class="note">Gear for your first real trip, picked by people who hike every weekend.</p>
+    </div>
+    <div>
+      <p class="label">Visit</p>
+      <p>14 Cedar Lane<br />Open Tue–Sun, 9am–6pm</p>
+    </div>
+    <div>
+      <p class="label">Explore</p>
+      <p><a href="/shop/">Shop</a><br /><a href="/journal/">Journal</a><br /><a href="/about/">About us</a></p>
+    </div>
+  </div>
+  <div class="wrap legal"><span class="label">© {year} Trailhead Gear Co.</span><span class="label">A ClickMinded starter site</span></div>
+</footer>
+<style>
+  .site-footer { background: var(--night); color: #e9e3d6; padding: 64px 0 28px; }
+  .grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; }
+  .mark { font-family: var(--font-display); font-size: 34px; margin: 0 0 10px; }
+  .note { color: #b9b3a5; max-width: 32ch; margin: 0; }
+  .label { color: #8f9888; margin: 0 0 10px; }
+  p { margin: 0; }
+  a { text-decoration: none; } a:hover { color: var(--blaze); }
+  .legal { display: flex; justify-content: space-between; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--night-2); }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .legal { flex-direction: column; gap: 8px; } }
+</style>

@@ -1,0 +1,134 @@
+/* Trailhead Gear Co. — "trail map" design system.
+   Warm paper, deep forest ink, and one signal orange: the painted blaze hikers follow on the trail. */
+:root {
+  --paper: #f3ede1;
+  --paper-2: #ebe2d0;
+  --card: #faf6ee;
+  --ink: #1c2a21;
+  --ink-2: #4a574d;
+  --muted: #7d8478;
+  --line: #d9cdb5;
+  --blaze: #e0592a;
+  --blaze-deep: #b8431b;
+  --moss: #5f6d3a;
+  --night: #16211a;
+  --night-2: #223027;
+
+  --font-display: "Gloock", Georgia, serif;
+  --font-body: "Figtree", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --wrap: min(1240px, 100% - 2 * clamp(20px, 5vw, 56px));
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(28, 42, 33, 0.06), 0 22px 44px -24px rgba(28, 42, 33, 0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+::selection { background: var(--blaze); color: #fff; }
+
+.wrap { width: var(--wrap); margin-inline: auto; }
+
+/* Paper grain: a faint noise layer over everything, like a printed trail map. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Type */
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  margin: 0;
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.label--blaze { color: var(--blaze-deep); }
+.lede { font-size: clamp(19px, 1.6vw, 22px); color: var(--ink-2); max-width: 36ch; }
+
+/* The blaze: the painted trail marker, used as the logo mark and as section markers. */
+.blaze {
+  display: inline-block;
+  width: 0.42em;
+  height: 1.05em;
+  background: var(--blaze);
+  border-radius: 2px;
+  transform: rotate(-4deg);
+  vertical-align: -0.12em;
+  margin-right: 0.45em;
+}
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: clamp(28px, 4vw, 48px); }
+.section-head h2 { font-size: clamp(36px, 4.6vw, 60px); }
+.section-head .label { display: block; margin-bottom: 14px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 24px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+.btn--blaze { background: var(--blaze); color: #fff; box-shadow: 0 10px 24px -12px rgba(224, 89, 42, 0.8); }
+.btn--blaze:hover { background: var(--blaze-deep); transform: translateY(-2px); }
+.btn--ghost { border: 1.5px solid var(--ink); color: var(--ink); }
+.btn--ghost:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+.btn .arrow { transition: transform 0.25s ease; }
+.btn:hover .arrow { transform: translateX(4px); }
+
+.link-arrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--blaze);
+  padding-bottom: 4px;
+  white-space: nowrap;
+}
+
+/* Page-load reveal */
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+.reveal { opacity: 0; animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+.reveal-1 { animation-delay: 0.08s; } .reveal-2 { animation-delay: 0.2s; } .reveal-3 { animation-delay: 0.34s; } .reveal-4 { animation-delay: 0.5s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Prose (journal posts, product descriptions) */
+.prose { font-size: 19px; color: var(--ink-2); max-width: 66ch; }
+.prose h2 { font-size: 32px; color: var(--ink); margin: 1.6em 0 0.5em; }
+.prose p, .prose ul, .prose ol { margin: 0 0 1.1em; }
+.prose li { margin-bottom: 0.45em; }
+.prose li::marker { color: var(--blaze); }
+.prose strong { color: var(--ink); }
+.prose a { text-decoration-color: var(--blaze); text-underline-offset: 3px; text-decoration-thickness: 1.5px; }

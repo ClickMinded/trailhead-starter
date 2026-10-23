@@ -1,0 +1,52 @@
+---
+import { Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ProductCard from "../../components/ProductCard.astro";
+
+export async function getStaticPaths() {
+  const products = await getCollection("products");
+  return products.map((product) => ({ params: { slug: product.id }, props: { product } }));
+}
+const { product } = Astro.props;
+const p = product.data;
+const { Content } = await render(product);
+const others = (await getCollection("products")).filter((x) => x.id !== product.id).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+---
+<Base title={p.name} description={p.tagline}>
+  <section class="wrap product">
+    <div class="media reveal reveal-1"><Image src={p.image} alt={p.imageAlt} widths={[600, 1000, 1200]} sizes="(max-width: 900px) 100vw, 55vw" loading="eager" /></div>
+    <div class="info">
+      <a class="back label" href="/shop/">← The shop</a>
+      <p class="label label--blaze reveal reveal-1">{p.category}</p>
+      <h1 class="reveal reveal-2">{p.name}</h1>
+      <p class="price reveal reveal-2">${p.price}</p>
+      <p class="lede reveal reveal-3">{p.tagline}</p>
+      <dl class="specs reveal reveal-3">
+        {p.specs.map((s) => (<div><dt class="label">{s.label}</dt><dd>{s.value}</dd></div>))}
+      </dl>
+      <div class="prose reveal reveal-4"><Content /></div>
+      <a class="btn btn--blaze reveal reveal-4" href="/about/#visit">Find it in the shop <span class="arrow">→</span></a>
+    </div>
+  </section>
+  <section class="wrap more">
+    <div class="section-head"><div><span class="label"><span class="blaze"></span>Pack it with</span><h2>The rest of the kit.</h2></div></div>
+    <div class="grid">{others.map((o) => <ProductCard product={o} />)}</div>
+  </section>
+</Base>
+<style>
+  .product { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 80px); padding-top: clamp(40px, 5vw, 72px); align-items: start; }
+  .media { position: sticky; top: 100px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+  .media :global(img) { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .back { display: inline-block; text-decoration: none; margin-bottom: 28px; }
+  .back:hover { color: var(--blaze-deep); }
+  h1 { font-size: clamp(44px, 5.4vw, 76px); margin: 12px 0 10px; }
+  .price { font-family: var(--font-mono); font-size: 22px; margin: 0 0 18px; }
+  .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; margin: 28px 0 32px; border-top: 1.5px solid var(--ink); }
+  .specs div { padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .specs dd { margin: 4px 0 0; font-weight: 600; }
+  .prose { margin-bottom: 28px; }
+  .more { padding-top: clamp(72px, 9vw, 120px); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 2.4vw, 32px); }
+  @media (max-width: 900px) { .product { grid-template-columns: 1fr; } .media { position: static; } .grid { grid-template-columns: 1fr; } }
+</style>

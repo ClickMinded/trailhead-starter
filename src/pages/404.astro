@@ -1,0 +1,19 @@
+---
+import Base from "../layouts/Base.astro";
+import Topo from "../components/Topo.astro";
+---
+<Base title="Off trail" description="This page isn't on the map.">
+  <section class="lost">
+    <Topo tone="#d6c9ad" />
+    <div class="wrap">
+      <p class="label"><span class="blaze"></span>404 · Off trail</p>
+      <h1>This page isn't<br />on the map.</h1>
+      <a class="btn btn--blaze" href="/">Back to the trailhead <span class="arrow">→</span></a>
+    </div>
+  </section>
+</Base>
+<style>
+  .lost { position: relative; overflow: hidden; min-height: 60vh; display: flex; align-items: center; background: var(--paper-2); }
+  .lost .wrap { position: relative; }
+  h1 { font-size: clamp(48px, 7vw, 96px); margin: 16px 0 32px; }
+</style>

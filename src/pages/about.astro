@@ -1,0 +1,39 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Topo from "../components/Topo.astro";
+import shop from "../assets/images/shop-interior.jpg";
+---
+<Base title="About" description="A small outdoor shop for people who are new to hiking, since 2014.">
+  <section class="head">
+    <Topo tone="#dccfb4" rings={10} />
+    <div class="wrap">
+      <p class="label reveal reveal-1"><span class="blaze"></span>About us</p>
+      <h1 class="reveal reveal-2">A small shop for<br />people who are new<br />to the trail.</h1>
+    </div>
+  </section>
+  <section class="wrap story">
+    <Image src={shop} alt="Inside the Trailhead Gear shop: wooden shelves of packs, boots and enamel mugs" widths={[700, 1200, 1600]} sizes="(max-width: 900px) 100vw, 50vw" class="img" />
+    <div class="prose">
+      <p>We opened Trailhead Gear in 2014 because walking into a big outdoor store for the first time is overwhelming. Hundreds of jackets, a wall of boots, and a lot of words like "membrane" and "denier."</p>
+      <p>So we kept the shelves short. We stock the gear we actually carry, and we spend most of our day helping people pick their first trail and pack for it.</p>
+      <p>Come by, tell us where you're thinking of going, and we'll help you get there.</p>
+    </div>
+  </section>
+  <section id="visit" class="wrap visit">
+    <div><p class="label">Address</p><p class="big">14 Cedar Lane</p></div>
+    <div><p class="label">Hours</p><p class="big">Tue–Sun, 9am–6pm</p></div>
+    <div><p class="label">Ask us anything</p><p class="big">hello@trailhead.example</p></div>
+  </section>
+</Base>
+<style>
+  .head { position: relative; overflow: hidden; background: var(--paper-2); padding-block: clamp(64px, 8vw, 110px); }
+  .head .wrap { position: relative; }
+  h1 { font-size: clamp(48px, 7vw, 96px); margin-top: 16px; }
+  .story { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: clamp(56px, 7vw, 96px); }
+  .story :global(.img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+  .visit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: clamp(56px, 7vw, 96px); padding-top: 28px; border-top: 1.5px solid var(--ink); }
+  .visit p { margin: 0; }
+  .big { font-family: var(--font-display); font-size: clamp(24px, 2.4vw, 32px); margin-top: 8px !important; }
+  @media (max-width: 900px) { .story, .visit { grid-template-columns: 1fr; } }
+</style>

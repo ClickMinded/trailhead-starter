@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import Topo from "../../components/Topo.astro";
+const products = (await getCollection("products")).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Shop" description="Trail shoes, daypacks, rain shells and camp kit for your first real trip.">
+  <section class="head">
+    <Topo tone="#dccfb4" rings={10} />
+    <div class="wrap">
+      <p class="label reveal reveal-1"><span class="blaze"></span>The shop</p>
+      <h1 class="reveal reveal-2">Five things that<br />get you up the trail.</h1>
+      <p class="lede reveal reveal-3">We keep the shelves short on purpose. Every item here has earned its spot in our own packs.</p>
+    </div>
+  </section>
+  <section class="wrap grid">
+    {products.map((p) => <ProductCard product={p} />)}
+  </section>
+</Base>
+<style>
+  .head { position: relative; overflow: hidden; background: var(--paper-2); padding-block: clamp(64px, 8vw, 110px); }
+  .head .wrap { position: relative; }
+  h1 { font-size: clamp(48px, 7vw, 96px); margin: 16px 0 20px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(22px, 3vw, 40px) clamp(18px, 2.4vw, 32px); padding-top: clamp(56px, 7vw, 88px); }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
