@@ -13,7 +13,7 @@ It's a small, fast, static site built with [Astro](https://astro.build): every p
 ## Put it live on Cloudflare
 
 1. In Cloudflare, go to **Workers & Pages** → **Create application** → **Continue with GitHub**, and pick your repository.
-2. Keep the settings Cloudflare suggests (build command `npm run build`, deploy command `npx wrangler deploy`). `wrangler.jsonc` already tells it where the built site is.
+2. Keep the settings Cloudflare suggests. `wrangler.jsonc` already tells it to build the site before every deploy, and where the built site is.
 3. Save and deploy. Your site gets a `workers.dev` address, and from now on every change merged into `main` goes live on its own.
 
 ## What's where
