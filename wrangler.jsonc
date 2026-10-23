@@ -1,0 +1,10 @@
+// Cloudflare settings for putting this site live. The site is plain static files,
+// so Cloudflare only needs to know where the build puts them.
+{
+  "name": "trailhead-gear",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
