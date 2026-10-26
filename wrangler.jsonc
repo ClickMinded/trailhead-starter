@@ -7,6 +7,8 @@
   "build": {
     "command": "npm run build"
   },
+  // Every branch and pull request gets its own preview address, so you can see a change before you merge it.
+  "previews": {},
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
