@@ -5,7 +5,7 @@ import ProductCard from "../../components/ProductCard.astro";
 import Topo from "../../components/Topo.astro";
 const products = (await getCollection("products")).sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Shop" description="Trail shoes, daypacks, rain shells and camp kit for your first real trip.">
+<Base title="Shop">
   <section class="head">
     <Topo tone="#dccfb4" rings={10} />
     <div class="wrap">
