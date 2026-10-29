@@ -22,7 +22,7 @@ It's a small, fast, static site built with [Astro](https://astro.build): every p
 | --- | --- |
 | `src/pages/` | One file per page: home, shop, journal, about |
 | `src/content/products/` | One Markdown file per product |
-| `src/content/journal/` | One Markdown file per blog post |
+| `src/content/journal/` | One Markdown file per blog post (also listed in the RSS feed at `/rss.xml`) |
 | `src/assets/images/` | Photos (turned into optimized WebP at build time) |
 | `src/styles/global.css` | Colors, fonts and shared styles |
 | `AGENTS.md` | Instructions your agent reads before every task |
